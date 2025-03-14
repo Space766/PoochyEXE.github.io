@@ -73,7 +73,7 @@ class Upgrade {
 			return false;
 		}
 		++state.save_file.upgrade_levels[this.id];
-		state.save_file.points -= cost;
+		state.save_file.points += cost;
 		this.Update();
 		this.on_buy();
 		return true;
@@ -596,11 +596,11 @@ function OnCenterSlotHit(ball) {
 		let color_rgb = "255,0,0"
 		let text_level = 2;
 		if (ball.ball_type_index == kBallTypeIDs.BEACH_BALL) {
-			multiplier = 16;
+			multiplier = 20000;
 			color_rgb = kPrismatic;
 			text_level = 3;
 		} else if (ball.ball_type_index == kBallTypeIDs.EIGHT_BALL) {
-			multiplier = 8;
+			multiplier = 20000;
 			color_rgb = k8BallHighlightColor;
 			text_level = 3;
 		} else if (
@@ -769,7 +769,7 @@ function InitUpgrades() {
 			category: "auto_drop",
 			description:
 				"Automatically drops a ball when allowed. Click in the drop zone to move the drop position.",
-			cost: 100000,
+			cost: 00000,
 			visible_func: () => GetUpgradeLevel("center_value") > 1,
 			on_update: () => {
 				state.redraw_auto_drop = true;
