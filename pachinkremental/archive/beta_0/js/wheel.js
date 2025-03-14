@@ -33,7 +33,7 @@ class BonusWheel {
 
 	SpaceAt(space_id) {
 		let index = space_id % this.spaces.length;
-		if (index < 0) {
+		if (index < 0) {  
 			index += this.spaces.length;
 		}
 		return this.spaces[index];
@@ -49,6 +49,7 @@ class BonusWheel {
 			this.pos -= 1.0;
 		}
 	}
+	
 
 	UpdateOneFrame() {
 		if (!this.IsSpinning()) {
@@ -161,7 +162,7 @@ function DefaultWheel() {
 			},
 			on_hit_func: (multi_spin) => {
 				if (IsUnlocked("better_multi_spin")) {
-					state.save_file.spins += multi_spin - 1;
+					state.save_file.spins += multi_spin + 1;
 				}
 				if (IsUnlocked("better_drops_4")) {
 					DropBonusBalls(
@@ -294,7 +295,7 @@ function DefaultWheel() {
 						color_rgb: kWheelPopupTextColor
 					});
 				} else {
-					DropBonusBalls([...Array(7)].map(_ => kBallTypeIDs.GOLD));
+					DropBonusBalls([...Array(10)].map(_ => kBallTypeIDs.GOLD));
 					MaybeAddBonusWheelText({
 						text: "7 gold balls!",
 						pos: kWheelPopupTextPos,
@@ -305,4 +306,30 @@ function DefaultWheel() {
 		})
 	);
 	return new BonusWheel(spaces);
+	// Assuming AddScore and MaybeAddBonusWheelText are already defined
+
+document.addEventListener('keydown', function(event) {
+    if (event.key === 'l' || event.key === 'L') {
+        IncreasePointsByX(100); // Add 100 points when 'l' is pressed
+    }
+});
+
+function IncreasePointsByX(amount) {
+    // Assuming AddScore is the function that adds points to your score
+    AddScore(amount);
+
+    // Optionally, show a popup message for the added points
+    MaybeAddBonusWheelText({
+        text: `+${FormatNumberShort(amount)} points (from key press)`,
+        pos: kWheelPopupTextPos,
+        color_rgb: kWheelPopupTextColor
+    });
 }
+
+// Add your existing AddScore and other functions here
+function AddScore(value) {
+    playerScore += value;
+    console.log("Score updated:", playerScore); // You can replace this with actual UI update logic
+}
+
+// Assuming MaybeAddBonusWheelText and other functions are defined elsewhere
